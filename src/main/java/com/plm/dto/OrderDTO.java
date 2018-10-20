@@ -1,8 +1,9 @@
 package com.plm.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.plm.dataobject.OrderDetail;
-import com.plm.enums.OrderStatusEnum;
-import com.plm.enums.PayStatusEnum;
+import com.plm.utils.serializer.DateToLongSerializer;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.List;
  * 21:01
  */
 @Data
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDTO {
     private String orderId;
     private String buyerName;
@@ -24,7 +26,9 @@ public class OrderDTO {
     private BigDecimal orderAmount;
     private Integer orderStatus;
     private Integer payStatus;
+    @JsonSerialize(using = DateToLongSerializer.class)
     private Date createTime;
+    @JsonSerialize(using = DateToLongSerializer.class)
     private Date updateTime;
     private List<OrderDetail> orderDetailList;
 }
