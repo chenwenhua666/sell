@@ -9,6 +9,8 @@ spring:
     database: mysql
     hibernate:
       ddl-auto: update
+  jackson:
+    default-property-inclusion: non_null
 server:
   servlet:
     context-path: /sell
