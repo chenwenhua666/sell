@@ -6,6 +6,7 @@ import com.plm.exception.SellException;
 import com.plm.service.BuyerService;
 import com.plm.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -14,6 +15,7 @@ import javax.annotation.Resource;
  * 2018\10\20 0020
  * 15:36
  */
+@Service
 @Slf4j
 public class BuyerServiceImpl implements BuyerService {
     @Resource
