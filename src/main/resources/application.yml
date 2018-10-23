@@ -27,8 +27,9 @@ logging:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 wechat:
-  mpAppId: wxd898fcb01713c658
-  mpAppSecret: 29d8a650db31472aa87800e3b0d739f2
+  mpAppId: wx5aecc6026a350680
+  mpAppSecret: 4e61dc329ae11f895eb16d99b8c3bec9
   mchId: 1409146202
   mchKey: c976503d34ca432c601361f969fd8d85
   keyPath: /var/weixin_cert/h5.p12
+  notifyUrl: http://127.0.0.1:8080/sell/pay/notify
