@@ -67,6 +67,11 @@
             <artifactId>weixin-java-mp</artifactId>
             <version>2.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>1.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
