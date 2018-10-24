@@ -13,6 +13,7 @@ import com.plm.exception.SellException;
 import com.plm.repository.OrderDetailRepository;
 import com.plm.repository.OrderMasterRepository;
 import com.plm.service.OrderService;
+import com.plm.service.PayService;
 import com.plm.service.ProductInfoService;
 import com.plm.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderMasterRepository orderMasterRepository;
+
+    @Autowired
+    private PayService payService;
 
     @Override
     @Transactional
@@ -142,7 +146,7 @@ public class OrderServiceImpl implements OrderService {
         productInfoService.increaseStock(cartDTOList);
         //如果已支付，需要退款
         if (orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
-            //TODO
+            payService.refund(orderDTO);
         }
         return orderDTO;
     }
