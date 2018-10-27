@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * chenwenhua
@@ -25,6 +26,10 @@ public class ProductCategory {
     private String categoryName;
 
     private Integer categoryType;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     public ProductCategory() {
 

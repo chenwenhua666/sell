@@ -1,8 +1,12 @@
 package com.plm.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.plm.dataobject.OrderDetail;
+import com.plm.enums.OrderStatusEnum;
+import com.plm.enums.PayStatusEnum;
+import com.plm.utils.EnumUtil;
 import com.plm.utils.serializer.DateToLongSerializer;
 import lombok.Data;
 
@@ -31,4 +35,14 @@ public class OrderDTO {
     @JsonSerialize(using = DateToLongSerializer.class)
     private Date updateTime;
     private List<OrderDetail> orderDetailList;
+
+    @JsonIgnore
+    public OrderStatusEnum getOrderStatusEnum(){
+        return EnumUtil.getByCode(orderStatus,OrderStatusEnum.class);
+    }
+    @JsonIgnore
+    public PayStatusEnum getPayStatusEnum(){
+        return EnumUtil.getByCode(payStatus,PayStatusEnum.class);
+    }
 }
+
