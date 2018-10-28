@@ -11,6 +11,9 @@ spring:
       ddl-auto: update
   jackson:
     default-property-inclusion: non_null
+  redis:
+    host: 192.168.2.189
+    port: 6379
 server:
   servlet:
     context-path: /sell
@@ -29,7 +32,14 @@ mybatis:
 wechat:
   mpAppId: wx5aecc6026a350680
   mpAppSecret: 4e61dc329ae11f895eb16d99b8c3bec9
+  openAppId: wx6ad144e54af67d87
+  openAppSecret: 91a2ff6d38a2bbccfb7e9f9079108e2e
   mchId: 1409146202
   mchKey: c976503d34ca432c601361f969fd8d85
   keyPath: /var/weixin_cert/h5.p12
   notifyUrl: http://192.168.2.174:8080/sell/pay/notify
+
+projecturl:
+  wechatMpAuthorize: http://sell.natapp4.cc
+  wechatOpenAuthorize: http://sell.natapp4.cc
+  sell: http://127.0.0.1:8080
