@@ -22,24 +22,24 @@ public class WebSocket {
 
     private Session session;
 
-    private CopyOnWriteArraySet<WebSocket> webSocketSet = new CopyOnWriteArraySet<>();
+    private static CopyOnWriteArraySet<WebSocket> webSocketSet = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(Session session){
+    public void onOpen(Session session) {
         this.session = session;
         webSocketSet.add(this);
         log.info("【websocket消息】有新的连接, 总数:{}", webSocketSet.size());
     }
 
     @OnClose
-    public void onClose(){
+    public void onClose() {
         webSocketSet.remove(this);
         log.info("【websocket消息】连接断开, 总数:{}", webSocketSet.size());
     }
 
     @OnMessage
-    public void onMessage(String msg){
-        log.info("【websocket消息】收到客户端发来的消息:{}", msg);
+    public void onMessage(String message) {
+        log.info("【websocket消息】收到客户端发来的消息:{}", message);
     }
 
     public void sendMessage(String message) {

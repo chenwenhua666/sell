@@ -41,7 +41,7 @@ public class SellerAuthorizeAspect {
     @Before("verity()")
     public void doVerify() {
         log.info("进入身份验证verity");
-        /*ServletRequestAttributes requestAttributes =  (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes requestAttributes =  (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
         Cookie cookie = CookieUtil.get(request,CookieConstant.TOKEN);
         if (cookie == null) {
@@ -52,8 +52,7 @@ public class SellerAuthorizeAspect {
         if (StringUtils.isEmpty(tokenValue)) {
             log.warn("【登录校验】Redis中查不到token");
             throw new SellerAuthorizeException();
-        }*/
-
+        }
 
     }
 
