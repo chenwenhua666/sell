@@ -9,12 +9,11 @@ import com.plm.dto.OrderDTO;
 import com.plm.enums.OrderStatusEnum;
 import com.plm.enums.PayStatusEnum;
 import com.plm.enums.ResultEnum;
+import com.plm.exception.HttpStatusException;
 import com.plm.exception.SellException;
 import com.plm.repository.OrderDetailRepository;
 import com.plm.repository.OrderMasterRepository;
-import com.plm.service.OrderService;
-import com.plm.service.PayService;
-import com.plm.service.ProductInfoService;
+import com.plm.service.*;
 import com.plm.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -26,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -53,6 +53,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private PayService payService;
 
+    @Resource
+    private PushMessageService pushMessageService;
+
+    @Resource
+    private WebSocket webSocket;
+
     @Override
     @Transactional
     public OrderDTO create(OrderDTO orderDTO) {
@@ -64,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
             ProductInfo productInfo = productInfoService.findOne(orderDetail.getProductId());
             if (productInfo == null) {
                 throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+                //throw new HttpStatusException();
             }
             //计算订单总价
             orderAmount = productInfo.getProductPrice()
@@ -92,6 +99,9 @@ public class OrderServiceImpl implements OrderService {
                 .map(e -> new CartDTO(e.getProductId(),e.getProductQuantity()))
                 .collect(Collectors.toList());
         productInfoService.decreaseStock(cartDTOList);
+
+        //发送websocket消息
+        webSocket.sendMessage(orderDTO.getOrderId());
         return orderDTO;
     }
 
@@ -169,6 +179,9 @@ public class OrderServiceImpl implements OrderService {
             log.error("【完结订单】更新失败, orderMaster={}", orderMaster);
             throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
         }
+
+        //推送微信模板消息
+        pushMessageService.orderStatus(orderDTO);
         return orderDTO;
     }
 

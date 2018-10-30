@@ -1,12 +1,14 @@
 package com.plm.exception;
 
 import com.plm.enums.ResultEnum;
+import lombok.Getter;
 
 /**
  * chenwenhua
  * 2018\10\17 0017
  * 19:27
  */
+@Getter
 public class SellException extends RuntimeException{
 
     private Integer code;

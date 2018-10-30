@@ -111,13 +111,14 @@
 <script>
     var websocket = null;
     if('WebSocket' in window) {
-        websocket = new WebSocket('ws://sell.natapp4.cc/sell/webSocket');
+        websocket = new WebSocket('ws://127.0.0.1:8080/sell/webSocket');
     }else {
         alert('该浏览器不支持websocket!');
     }
 
     websocket.onopen = function (event) {
         console.log('建立连接');
+        websocket.send("客户端发送消息☞");
     }
 
     websocket.onclose = function (event) {
@@ -128,7 +129,6 @@
         console.log('收到消息:' + event.data)
         //弹窗提醒, 播放音乐
         $('#myModal').modal('show');
-
         document.getElementById('notice').play();
     }
 
