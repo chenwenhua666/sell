@@ -1,8 +1,10 @@
 package com.plm.service.impl;
 
 import com.plm.exception.SellException;
+import com.plm.service.RedisLock;
 import com.plm.service.SecKillService;
 import com.plm.utils.KeyUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -15,6 +17,10 @@ import java.util.Map;
  */
 @Service
 public class SecKillServiceImpl implements SecKillService {
+    private static final int TIMEOUT = 100 * 1000;//超时时间10s
+
+    @Autowired
+    private RedisLock redisLock;
 
     static Map<String,Integer> products;
     static Map<String,Integer> stock;
@@ -45,6 +51,11 @@ public class SecKillServiceImpl implements SecKillService {
 
     @Override
     public void orderProductMockDiffUser(String productId) {
+        //加锁
+        Long time = System.currentTimeMillis() + TIMEOUT;
+        if (!redisLock.lock(productId,String.valueOf(time))){
+            throw new SellException(101,"稍等。。");
+        }
         //1、查询该商品库存，为0则活动结束。
         int stockNum = stock.get(productId);
         if (stockNum == 0){
@@ -61,6 +72,7 @@ public class SecKillServiceImpl implements SecKillService {
             }
             stock.put(productId,stockNum);
         }
+        redisLock.unlock(productId,String.valueOf(time));
 
     }
 }
