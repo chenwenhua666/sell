@@ -7,6 +7,9 @@ import com.plm.enums.ResultEnum;
 import com.plm.exception.SellException;
 import com.plm.repository.ProductInfoRepository;
 import com.plm.service.ProductInfoService;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,12 +24,14 @@ import java.util.List;
  * 16:34
  */
 @Service
+//@CacheConfig(cacheNames = "product")
 public class ProductInfoServiceImpl implements ProductInfoService {
 
     @Resource
     private ProductInfoRepository repository;
 
     @Override
+    //@Cacheable(cacheNames = "product",key = "123")
     public ProductInfo findOne(String ProductId) {
         return repository.findById(ProductId).orElse(null);
     }
@@ -42,6 +47,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     }
 
     @Override
+   // @CachePut(cacheNames = "product",key = "123")
     public ProductInfo save(ProductInfo productInfo) {
         return repository.save(productInfo);
     }
